@@ -2,7 +2,7 @@ import os
 import argparse
 from pathlib import Path
 import cv2
-from joblib import Parallel, delayed
+# from joblib import Parallel, delayed
 
 
 class Vid2Img:
@@ -27,15 +27,18 @@ class Vid2Img:
         self.frame_cnt = int(vid.get(cv2.CAP_PROP_FRAME_COUNT))
 
     def save_frames(self, parallel):
-        if parallel:
-            self.block = self.frame_cnt // (self.cores-1)
-            self.positions = list(range(0, self.frame_cnt, self.block))
-            proc = [delayed(self.save_block)(self.get_block(core)) for core in range(self.cores)]
-            Parallel(n_jobs=self.cores, backend='threading', verbose=1)(proc)
-        else:
-            self.block = self.frame_cnt
-            vid = cv2.VideoCapture(str(self.path))
-            self.save_block(vid)
+        self.block = self.frame_cnt
+        vid = cv2.VideoCapture(str(self.path))
+        self.save_block(vid)
+#         if parallel:
+#             self.block = self.frame_cnt // (self.cores-1)
+#             self.positions = list(range(0, self.frame_cnt, self.block))
+#             proc = [delayed(self.save_block)(self.get_block(core)) for core in range(self.cores)]
+#             Parallel(n_jobs=self.cores, backend='threading', verbose=1)(proc)
+#         else:
+#             self.block = self.frame_cnt
+#             vid = cv2.VideoCapture(str(self.path))
+#             self.save_block(vid)
 
     def get_block(self, i):
         vid = cv2.VideoCapture(str(self.path))
@@ -61,8 +64,8 @@ if __name__ == '__main__':
                         help="Interval between the frames to save.")
     parser.add_argument("-e", "--extension", type=str, default="png",
                         help="Extension to save frames as.")
-    parser.add_argument("-p", "--parallel", default=False, action='store_true',
-                        help="Run the extraction in parallel.")
+#     parser.add_argument("-p", "--parallel", default=False, action='store_true',
+#                         help="Run the extraction in parallel.")
     args = parser.parse_args()
 
     vi = Vid2Img(args.path, args.outdir, args.interval, args.extension)
