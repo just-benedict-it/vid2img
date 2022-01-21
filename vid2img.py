@@ -64,8 +64,8 @@ if __name__ == '__main__':
                         help="Interval between the frames to save.")
     parser.add_argument("-e", "--extension", type=str, default="png",
                         help="Extension to save frames as.")
-#     parser.add_argument("-p", "--parallel", default=False, action='store_true',
-#                         help="Run the extraction in parallel.")
+    parser.add_argument("-p", "--parallel", default=False, action='store_true',
+                        help="Run the extraction in parallel.")
     args = parser.parse_args()
 
     vi = Vid2Img(args.path, args.outdir, args.interval, args.extension)
