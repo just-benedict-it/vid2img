@@ -51,7 +51,8 @@ class Vid2Img:
             frame_cnt = int(vid.get(cv2.CAP_PROP_POS_FRAMES))
             ret, frame = vid.read()
             if frame_cnt % self.interval == 0 and ret:
-                cv2.imwrite(f"{Path(self.outdir)/str(frame_cnt)}.{self.ext}", frame)
+                image_num = int(frame_cnt/self.interval)
+                cv2.imwrite(f"{Path(self.outdir)}/r_{str(image_num)}.{self.ext}", frame)
 
 
 if __name__ == '__main__':
