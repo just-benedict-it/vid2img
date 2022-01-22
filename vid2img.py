@@ -50,6 +50,7 @@ class Vid2Img:
         for idx in range(self.block):
             frame_cnt = int(vid.get(cv2.CAP_PROP_POS_FRAMES))
             ret, frame = vid.read()
+            frame = cv2.resize(frame, (600,600), interpolation=cv2.INTER_AREA)  #image size chane
             if frame_cnt % self.interval == 0 and ret:
                 image_num = int(frame_cnt/self.interval)
                 cv2.imwrite(f"{Path(self.outdir)}/r_{str(image_num)}.{self.ext}", frame)
